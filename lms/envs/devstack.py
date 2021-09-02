@@ -438,8 +438,15 @@ PROCTORING_USER_OBFUSCATION_KEY = '85920908f28904ed733fe576320db18cabd7b6cd'
 #################### Webpack Configuration Settings ##############################
 WEBPACK_LOADER['DEFAULT']['TIMEOUT'] = 5
 
+#################### Kafka Related Settings ##############################
+from confluent_kafka import Producer
+KAFKA_PRODUCER_CONF = {'bootstrap.servers': "broker:9092,",
+                 'client.id': 'edx.devstack.lms' }
+KAFKA_PRODUCER = Producer(KAFKA_PRODUCER_CONF)
+
 ################# New settings must go ABOVE this line #################
 ########################################################################
 # See if the developer has any local overrides.
 if os.path.isfile(join(dirname(abspath(__file__)), 'private.py')):
     from .private import *  # pylint: disable=import-error,wildcard-import
+
