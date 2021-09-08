@@ -23,6 +23,8 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.debug import sensitive_post_parameters
 from edx_django_utils.monitoring import set_custom_attribute
 from edx_toggles.toggles import LegacyWaffleFlag, LegacyWaffleFlagNamespace
+from openedx_events.learning.data import UserData, UserPersonalData
+from openedx_events.learning.signals import STUDENT_REGISTRATION_COMPLETED
 from pytz import UTC
 from ratelimit.decorators import ratelimit
 from requests import HTTPError
@@ -209,7 +211,7 @@ def create_account_with_params(request, params):
     custom_form = get_registration_extension_form(data=params)
 
     # Perform operations within a transaction that are critical to account creation
-    with outer_atomic(read_committed=True):
+    with outer_atomic():
         # first, create the account
         (user, profile, registration) = do_create_account(form, custom_form)
 
@@ -251,6 +253,18 @@ def create_account_with_params(request, params):
 
     # Announce registration
     REGISTER_USER.send(sender=None, user=user, registration=registration)
+
+    STUDENT_REGISTRATION_COMPLETED.send_event(
+        user=UserData(
+            pii=UserPersonalData(
+                username=user.username,
+                email=user.email,
+                name=user.profile.name,
+            ),
+            id=user.id,
+            is_active=user.is_active,
+        ),
+    )
 
     create_comments_service_user(user)
 
