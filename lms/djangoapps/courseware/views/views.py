@@ -54,6 +54,8 @@ from lms.djangoapps.ccx.custom_exception import CCXLocatorValidationException
 from lms.djangoapps.certificates import api as certs_api
 from lms.djangoapps.certificates.data import CertificateStatuses
 from lms.djangoapps.commerce.utils import EcommerceService
+from lms.djangoapps.course_goals.models import UserActivity
+from lms.djangoapps.course_goals.toggles import RECORD_USER_ACTIVITY_FLAG
 from lms.djangoapps.course_home_api.toggles import (
     course_home_legacy_is_active,
     course_home_mfe_progress_tab_is_active
@@ -706,8 +708,10 @@ class CourseTabView(EdxFragmentView):
             if not CourseEnrollment.is_enrolled(request.user, course.id) and not allow_anonymous:
                 # Only show enroll button if course is open for enrollment.
                 if CourseTabView.course_open_for_learner_enrollment(course):
-                    enroll_message = _('You must be enrolled in the course to see course content. \
-                            {enroll_link_start}Enroll now{enroll_link_end}.')
+                    enroll_message = _(
+                        'You must be enrolled in the course to see course content. '
+                        '{enroll_link_start}Enroll now{enroll_link_end}.'
+                    )
                     PageLevelMessages.register_warning_message(
                         request,
                         Text(enroll_message).format(
@@ -1730,6 +1734,12 @@ def render_xblock(request, usage_key_string, check_if_enrolled=True):
             staff_access,
         )
 
+        if RECORD_USER_ACTIVITY_FLAG.is_enabled():
+            # Record user activity for tracking progress towards a user's course goals (for mobile app)
+            UserActivity.record_user_activity(
+                request.user, usage_key.course_key, request=request, only_if_mobile_app=True
+            )
+
         # get the block, which verifies whether the user has access to the block.
         recheck_access = request.GET.get('recheck_access') == '1'
         block, _ = get_module_by_usage_id(
@@ -2071,9 +2081,9 @@ def financial_assistance_form(request):
                 'placeholder': '',
                 'name': 'mktg-permission',
                 'label': _(
-                    'I allow edX to use the information provided in this application '
-                    '(except for financial information) for edX marketing purposes.'
-                ),
+                    'I allow {platform_name} to use the information provided in this application '
+                    '(except for financial information) for {platform_name} marketing purposes.'
+                ).format(platform_name=settings.PLATFORM_NAME),
                 'defaultValue': '',
                 'type': 'checkbox',
                 'required': False,

@@ -1,6 +1,8 @@
 """Middleware to change name of an incoming cookie"""
 from django.conf import settings
 
+from edx_django_utils.monitoring import set_custom_attribute
+
 
 class CookieNameChange:
     """Changes name of an incoming cookie"""
@@ -39,9 +41,9 @@ class CookieNameChange:
                alternate: new
              SOME_COOKIE_NAME: old
 
-        3. Change the current name, both in the main cookie setting and in the
-           name-change dictionary, now that all servers are capable of reading
-           either name::
+        3. Swap the new and old cookie names in all three places they occur (the
+           main setting and the two dictionary elements), now that all servers
+           are capable of reading either name::
 
              COOKIE_NAME_CHANGE_ACTIVATE: True
              COOKIE_NAME_CHANGE_EXPAND_INFO:
@@ -78,12 +80,19 @@ class CookieNameChange:
                     alt_cookie_in_request = True
                     alt_cookie_value = request.COOKIES[expand_settings["alternate"]]
                     del request.COOKIES[expand_settings["alternate"]]
+                    # Adding custom attribute: cookie.change_name
+                    # if cookie.change_name in transaction and equal 0,
+                    #     cookie with alternate name was detected and deleted
+                    # if cookie.change_name in transaction and equal 1,
+                    #     cookie with current name was added
+                    set_custom_attribute("cookie.change_name", 0)
 
                 if (
                     expand_settings["current"] not in request.COOKIES
                     and alt_cookie_in_request
                 ):
                     request.COOKIES[expand_settings["current"]] = alt_cookie_value
+                    set_custom_attribute("cookie.change_name", 1)
 
         response = self.get_response(request)
         return response

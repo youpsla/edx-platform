@@ -23,13 +23,15 @@ from lms.djangoapps.edxnotes.helpers import is_feature_enabled
 from lms.djangoapps.certificates.api import get_certificate_url
 from lms.djangoapps.certificates.models import GeneratedCertificate
 from lms.djangoapps.course_api.api import course_detail
+from lms.djangoapps.course_goals.toggles import RECORD_USER_ACTIVITY_FLAG
+from lms.djangoapps.course_goals.models import UserActivity
 from lms.djangoapps.courseware.access import has_access
 from lms.djangoapps.courseware.access_response import (
     CoursewareMicrofrontendDisabledAccessError,
 )
 from lms.djangoapps.courseware.context_processor import user_timezone_locale_prefs
 from lms.djangoapps.courseware.courses import check_course_access
-from lms.djangoapps.courseware.masquerade import setup_masquerade
+from lms.djangoapps.courseware.masquerade import is_masquerading_as_specific_student, setup_masquerade
 from lms.djangoapps.courseware.module_render import get_module_by_usage_id
 from lms.djangoapps.courseware.tabs import get_course_tab_list
 from lms.djangoapps.courseware.toggles import (
@@ -458,11 +460,15 @@ class CoursewareInformation(RetrieveAPIView):
             username = self.request.GET.get('username', '') or self.request.user.username
         else:
             username = self.request.user.username
+        course_key = CourseKey.from_string(self.kwargs['course_key_string'])
         overview = CoursewareMeta(
-            CourseKey.from_string(self.kwargs['course_key_string']),
+            course_key,
             self.request,
             username=username,
         )
+        # Record course goals user activity for learning mfe courseware on web
+        if RECORD_USER_ACTIVITY_FLAG.is_enabled():
+            UserActivity.record_user_activity(self.request.user, course_key)
 
         return overview
 
@@ -545,7 +551,8 @@ class SequenceMetadata(DeveloperErrorViewMixin, APIView):
         if request.user.is_anonymous:
             view = PUBLIC_VIEW
 
-        return Response(sequence.get_metadata(view=view))
+        context = {'specific_masquerade': is_masquerading_as_specific_student(request.user, usage_key.course_key)}
+        return Response(sequence.get_metadata(view=view, context=context))
 
 
 class Resume(DeveloperErrorViewMixin, APIView):
