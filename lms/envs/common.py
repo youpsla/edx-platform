@@ -4664,7 +4664,7 @@ PROGRAM_CONSOLE_MICROFRONTEND_URL = None
 LEARNING_MICROFRONTEND_URL = None
 # .. setting_name: ORA_GRADING_MICROFRONTEND_URL
 # .. setting_default: None
-# .. setting_description: Base URL of the micro-frontend-based instructor dashboard page.
+# .. setting_description: Base URL of the micro-frontend-based openassessment grading page.
 #     This is will be show in the open response tab list data.
 # .. setting_warning: Also set site's openresponseassessment.enhanced_staff_grader
 #     waffle flag.
