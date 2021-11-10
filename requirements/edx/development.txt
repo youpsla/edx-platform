@@ -654,6 +654,8 @@ fastapi==0.70.0
     # via
     #   -r requirements/edx/testing.txt
     #   pact-python
+fastavro==1.4.7
+    # via -r requirements/edx/testing.txt
 filelock==3.3.2
     # via
     #   -r requirements/edx/testing.txt

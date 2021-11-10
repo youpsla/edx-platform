@@ -521,6 +521,8 @@ event-tracking==1.1.4
     #   -r requirements/edx/base.in
     #   edx-proctoring
     #   edx-search
+fastavro==1.4.7
+    # via -r requirements/edx/base.in
 frozenlist==1.2.0
     # via
     #   aiohttp
