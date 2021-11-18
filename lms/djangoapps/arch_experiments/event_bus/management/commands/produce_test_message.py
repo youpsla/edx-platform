@@ -12,7 +12,8 @@ from lms.djangoapps.arch_experiments.event_bus.course_events import (
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        pass
+        parser.add_argument('--topic', default="test-topic")
+        parser.add_argument('--student', default="12345")
 
     def handle(self, *args, **options):
         def acked(err, msg):
@@ -32,12 +33,11 @@ class Command(BaseCommand):
         for i in range(10):
             course = Course(f"edX+{i}", f"Introduction to the number {i}", "edX")
             event_key = CourseEventKey(course.course_key)
-            event_value = CourseEnrollmentEventValue(course, '12345', i%2 == 0)
+            event_value = CourseEnrollmentEventValue(course, options["student"], i%2 == 0)
             producer.produce(
-                topic="course_events",
+                topic=options["topic"],
                 key=event_key,
                 value=event_value,
                 on_delivery=acked,
             )
-        producer.flush()
-
+            producer.poll()

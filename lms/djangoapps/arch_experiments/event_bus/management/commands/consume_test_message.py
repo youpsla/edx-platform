@@ -9,7 +9,7 @@ from lms.djangoapps.arch_experiments.event_bus.course_events import (
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        pass
+        parser.add_argument('--topic', default="test-topic")
 
     def handle(self, *args, **options):
         consumer_settings = dict(settings.KAFKA_CONSUMER_CONF_BASE)
@@ -20,10 +20,11 @@ class Command(BaseCommand):
         consumer = DeserializingConsumer(consumer_settings)
         print("Starting to consume messages...")
         try:
-            consumer.subscribe(["course_events"])
+            consumer.subscribe([options["topic"]])
 
             while True:
                 msg = consumer.poll(timeout=1.0)
+               # print(msg)
                 if msg is None: continue
 
                 if msg.error():

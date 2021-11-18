@@ -443,7 +443,7 @@ KAFKA_PRODUCER_CONF_BASE = {'bootstrap.servers': "edx.devstack.kafka:29092",
                  'client.id': 'edx.devstack.lms' }
 
 KAFKA_CONSUMER_CONF_BASE = {'bootstrap.servers': "edx.devstack.kafka:29092",
-                       'group.id': 'lms'}
+                       'group.id': 'lms', 'auto.offset.reset': 'earliest'}
 
 SCHEMA_REGISTRY_URL = "http://edx.devstack.schema-registry:8081"
 
