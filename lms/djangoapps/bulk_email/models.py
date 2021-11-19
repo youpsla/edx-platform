@@ -470,6 +470,27 @@ class CourseAuthorization(models.Model):
             not_en = ""
         return f"Course '{str(self.course_id)}': Instructor Email {not_en}Enabled"
 
+class DisabledCourse(models.Model):
+    """
+    Disable the bulk email feature for specific courses.
+
+    .. no_pii:
+    """
+
+    course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
+    email_disabled = models.BooleanField(default=False)
+
+    @classmethod
+    def instructor_email_disabled_for_course(cls, course_id):
+        """
+        Returns whether or not email is disabled for the given course id.
+        """
+        try:
+            record = cls.objects.get(course_id=course_id)
+            return record.email_disabled
+        except cls.DoesNotExist:
+            return False
+
 
 class BulkEmailFlag(ConfigurationModel):
     """
