@@ -1,30 +1,20 @@
 
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
-from confluent_kafka import KafkaError, KafkaException, Consumer, DeserializingConsumer
-from lms.djangoapps.arch_experiments.event_bus.course_events import (
-    COURSE_EVENT_KEY_DESERIALIZER,
-    COURSE_EVENT_VALUE_DESERIALIZER,
-)
+from django.core.management.base import BaseCommand
+from confluent_kafka import KafkaException, KafkaError
+from lms.djangoapps.arch_experiments.event_bus.consumer import CONSUMER
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--topic', default="test-topic")
 
     def handle(self, *args, **options):
-        consumer_settings = dict(settings.KAFKA_CONSUMER_CONF_BASE)
-        consumer_settings.update({'key.deserializer': COURSE_EVENT_KEY_DESERIALIZER,
-                                  'value.deserializer': COURSE_EVENT_VALUE_DESERIALIZER}
 
-        )
-        consumer = DeserializingConsumer(consumer_settings)
         print("Starting to consume messages...")
         try:
-            consumer.subscribe([options["topic"]])
+            CONSUMER.subscribe([options["topic"]])
 
             while True:
-                msg = consumer.poll(timeout=1.0)
-               # print(msg)
+                msg = CONSUMER.poll(timeout=1.0)
                 if msg is None: continue
 
                 if msg.error():
@@ -45,4 +35,4 @@ class Command(BaseCommand):
                     print(f"{ 'Enrolled' if is_enroll else 'Unenrolled' } student {student} from {course.formatted_title()}")
         finally:
             # Close down consumer to commit final offsets.
-            consumer.close()
+            CONSUMER.close()

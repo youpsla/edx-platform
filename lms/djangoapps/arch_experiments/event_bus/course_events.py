@@ -1,5 +1,6 @@
 from confluent_kafka.schema_registry.avro import AvroSerializer, AvroDeserializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
+from confluent_kafka import SerializingProducer
 from django.conf import settings
 
 
