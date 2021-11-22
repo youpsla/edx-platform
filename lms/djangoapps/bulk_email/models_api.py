@@ -49,6 +49,7 @@ def is_bulk_email_enabled_for_course(course_id):
     """
     return CourseAuthorization.instructor_email_enabled(course_id)
 
+
 def is_bulk_email_disabled_for_course(course_id):
     """
     Arguments:

@@ -88,6 +88,7 @@ To enable email for the course, check the "Email enabled" box, then click "Save"
         }),
     )
 
+
 class DisabledCourseAdmin(admin.ModelAdmin):
     """Admin for disabling bulk email on a course-by-course basis"""
     list_display = ('course_id', )

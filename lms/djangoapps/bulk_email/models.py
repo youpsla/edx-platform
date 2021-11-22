@@ -470,6 +470,7 @@ class CourseAuthorization(models.Model):
             not_en = ""
         return f"Course '{str(self.course_id)}': Instructor Email {not_en}Enabled"
 
+
 class DisabledCourse(models.Model):
     """
     Disable the bulk email feature for specific courses.

@@ -315,7 +315,11 @@ class CourseAuthorizationTest(TestCase):
         # Now, course should STILL be authorized!
         assert is_bulk_email_feature_enabled(course_id)
 
+
 class DisabledCourseTest(TestCase):
+    """
+    Test DisabledCourse model and api
+    """
     def tearDown(self):
         super().tearDown()
         BulkEmailFlag.objects.all().delete()
@@ -331,6 +335,7 @@ class DisabledCourseTest(TestCase):
         disabled_course.save()
         # Course should be disabled
         assert is_bulk_email_disabled_for_course(course_id)
+
 
 class TargetFilterTest(ModuleStoreTestCase):
     """
