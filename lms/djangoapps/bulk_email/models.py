@@ -478,7 +478,6 @@ class DisabledCourse(models.Model):
     """
 
     course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
-    email_disabled = models.BooleanField(default=False)
 
     @classmethod
     def instructor_email_disabled_for_course(cls, course_id):
