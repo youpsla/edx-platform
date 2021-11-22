@@ -46,9 +46,9 @@ jobs:
         run: |
           echo "settings_path=$(if [ '${{ env.module_name }}' = 'cms' ]; then echo 'cms.envs.test'; else echo 'lms.envs.test' ; fi)" >> $GITHUB_ENV
 
-#      - name: set pytest randomly option
-#        run: |
-#          echo "pytest_randomly_option=$(if [ '${{ env.module_name }}' = 'cms' ] || [ '${{ env.module_name }}' = 'common' ]; then echo '-p no:randomly'; else echo '' ; fi)" >> $GITHUB_ENV
+      - name: set pytest randomly option
+        run: |
+          echo "pytest_randomly_option=$(if [ '${{ env.module_name }}' = 'cms' ] || [ '${{ env.module_name }}' = 'common' ]; then echo '-p no:randomly'; else echo '' ; fi)" >> $GITHUB_ENV
 
       - name: install requirements
         run: |
@@ -58,4 +58,4 @@ jobs:
 
       - name: run tests
         run: |
-          python -Wd -m pytest --ds=${{ env.settings_path }} ${{ matrix.test_module }}
+          python -Wd -m pytest ${{ env.pytest_randomly_option }} --ds=${{ env.settings_path }} ${{ matrix.test_module }}
