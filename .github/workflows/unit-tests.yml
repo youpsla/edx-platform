@@ -58,4 +58,4 @@ jobs:
 
       - name: run tests
         run: |
-          python -Wd -m pytest -p no:randomly --ds=${{ env.settings_path }} ${{ matrix.test_module }}
+          python -Wd -m pytest --ds=${{ env.settings_path }} ${{ matrix.test_module }}
