@@ -476,6 +476,8 @@ class DisabledCourse(models.Model):
 
     .. no_pii:
     """
+    class Meta:
+        app_label = "bulk_email"
 
     course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
 
