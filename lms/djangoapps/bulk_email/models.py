@@ -486,7 +486,7 @@ class DisabledCourse(models.Model):
         """
         try:
             record = cls.objects.get(course_id=course_id)
-            return record.email_disabled
+            return True
         except cls.DoesNotExist:
             return False
 
