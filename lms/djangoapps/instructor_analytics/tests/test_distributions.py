@@ -8,9 +8,10 @@ from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from common.djangoapps.student.tests.factories import UserFactory
 from lms.djangoapps.instructor_analytics.distributions import AVAILABLE_PROFILE_FEATURES, profile_distribution
+from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 
 
-class TestAnalyticsDistributions(TestCase):
+class TestAnalyticsDistributions(ModuleStoreTestCase):
     '''Test analytics distribution gathering.'''
 
     def setUp(self):
@@ -73,7 +74,7 @@ class TestAnalyticsDistributions(TestCase):
         assert distribution.data['hs'] == (len(course_enrollments) - 1)
 
 
-class TestAnalyticsDistributionsNoData(TestCase):
+class TestAnalyticsDistributionsNoData(ModuleStoreTestCase):
     '''Test analytics distribution gathering.'''
 
     def setUp(self):

@@ -15,7 +15,7 @@ from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from xmodule.modulestore.tests.factories import CourseFactory
 
 
-class RoleAssignmentTest(TestCase):
+class RoleAssignmentTest(ModuleStoreTestCase):
     """
     Basic checks to make sure our Roles get assigned and unassigned as students
     are enrolled and unenrolled from a course.
