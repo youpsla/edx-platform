@@ -10,7 +10,7 @@ import lms.djangoapps.discussion.django_comment_client.utils as utils
 from lms.djangoapps.courseware.tabs import EnrolledTab
 from lms.djangoapps.discussion.toggles import ENABLE_DISCUSSIONS_MFE
 from openedx.features.lti_course_tab.tab import DiscussionLtiCourseTab
-from xmodule.tabs import TabFragmentViewMixin
+from xmodule.tabs import TabFragmentViewMixin  # lint-amnesty, pylint: disable=wrong-import-order
 
 
 class DiscussionTab(TabFragmentViewMixin, EnrolledTab):
