@@ -12,8 +12,8 @@ from opaque_keys.edx.keys import CourseKey
 from common.djangoapps.student.tests.factories import AdminFactory
 from lms.djangoapps.bulk_email.api import is_bulk_email_enabled_for_course, is_bulk_email_feature_enabled
 from lms.djangoapps.bulk_email.models import BulkEmailFlag, CourseAuthorization
-from xmodule.modulestore.tests.django_utils import TEST_DATA_MIXED_MODULESTORE, SharedModuleStoreTestCase
-from xmodule.modulestore.tests.factories import CourseFactory
+from xmodule.modulestore.tests.django_utils import TEST_DATA_MIXED_MODULESTORE, SharedModuleStoreTestCase  # lint-amnesty, pylint: disable=wrong-import-order
+from xmodule.modulestore.tests.factories import CourseFactory  # lint-amnesty, pylint: disable=wrong-import-order
 
 
 class TestNewInstructorDashboardEmailViewMongoBacked(SharedModuleStoreTestCase):
