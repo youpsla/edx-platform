@@ -53,6 +53,7 @@ class SetDjangoSettingsChecker(BaseChecker):
             # pylint command arguments than test setting of lms is used
             name_checker.config.django_settings_module = 'lms.envs.test'
 
+        name_checker.config.django_settings_module = 'lms.envs.test'
 
 def register(linter):
     linter.register_checker(SetDjangoSettingsChecker(linter))
