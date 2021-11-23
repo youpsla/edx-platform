@@ -94,6 +94,11 @@ class UpdateGradeView(RetrieveAPIView):
     """ Submit a grade """
 
     def update_grade_data(self, submission, grade_data):
+        # this is static test data
+        grade_data['score'] = {
+            "pointsEarned": 70,
+            "pointsPossible": 100
+        }
         submission['gradeData'] = grade_data
         submission['score'] = grade_data['score']
         submission['gradeStatus'] = 'graded'
