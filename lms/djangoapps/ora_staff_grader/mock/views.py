@@ -94,11 +94,6 @@ class UpdateGradeView(RetrieveAPIView):
     """ Submit a grade """
 
     def update_grade_data(self, submission, grade_data):
-        # this is static test data
-        grade_data['score'] = {
-            "pointsEarned": 70,
-            "pointsPossible": 100
-        }
         submission['gradeData'] = grade_data
         submission['score'] = grade_data['score']
         submission['gradeStatus'] = 'graded'
@@ -109,6 +104,12 @@ class UpdateGradeView(RetrieveAPIView):
         submission_id = request.query_params[PRAM_SUBMISSION_ID]
         grade_data = request.data
 
+        # this is static test data
+        grade_data['score'] = {
+            "pointsEarned": 70,
+            "pointsPossible": 100
+        }
+
         submission = fetch_submission(ora_location, submission_id)
 
         self.update_grade_data(submission, grade_data)
@@ -117,5 +118,5 @@ class UpdateGradeView(RetrieveAPIView):
         return Response({
             'gradeStatus': submission['gradeStatus'],
             'lockStatus': submission['lockStatus'],
-            'gradeData': submission['gradeData'],
+            'gradeData': grade_data,
         })
