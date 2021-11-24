@@ -233,7 +233,7 @@ if not settings.FEATURES.get('ENABLE_CHANGE_USER_PASSWORD_ADMIN'):
 urlpatterns.append(url(r'^admin/password_change/$', handler404))
 urlpatterns.append(
     url(r'^admin/login/', contentstore_views.redirect_to_lms_login_for_admin, name='redirect_to_lms_login_for_admin')
-),
+)
 urlpatterns.append(url(r'^admin/', admin.site.urls))
 
 # enable entrance exams
