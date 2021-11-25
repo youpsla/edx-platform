@@ -8,14 +8,9 @@ from rest_framework import serializers
 
 from openedx.core.djangoapps.django_comment_common.models import CourseDiscussionSettings
 from openedx.core.lib.courses import get_course_by_id
-<<<<<<< Updated upstream
-from xmodule.modulestore.django import modulestore
-from .models import AVAILABLE_PROVIDER_MAP, DEFAULT_PROVIDER_TYPE, DiscussionsConfiguration, Features, Provider
-=======
 from xmodule.modulestore.django import modulestore  # lint-amnesty, pylint: disable=wrong-import-order
-from .models import AVAILABLE_PROVIDER_MAP, DEFAULT_PROVIDER_TYPE, DiscussionsConfiguration, Features
->>>>>>> Stashed changes
-from .utils import available_division_schemes, get_divided_discussions
+from .models import AVAILABLE_PROVIDER_MAP, DEFAULT_PROVIDER_TYPE, DiscussionsConfiguration, Features, Provider
+rom .utils import available_division_schemes, get_divided_discussions
 
 
 class LtiSerializer(serializers.ModelSerializer):
