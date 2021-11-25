@@ -56,7 +56,6 @@ jobs:
 
     - name: Install Required Python Dependencies
       run: |
-        pip uninstall MySQL-python
         pip install -r requirements/pip.txt
         pip install -r requirements/edx/development.txt --src ${{ runner.temp }}
 
