@@ -1450,7 +1450,6 @@ COURSE_LISTINGS = {}
 ############# XBlock Configuration ##########
 
 # Import after sys.path fixup
-# pylint: disable=wrong-import-position
 from xmodule.modulestore.edit_info import EditInfoMixin  # lint-amnesty, pylint: disable=wrong-import-order
 from xmodule.modulestore.inheritance import InheritanceMixin  # lint-amnesty, pylint: disable=wrong-import-order
 from xmodule.modulestore import prefer_xmodules  # lint-amnesty, pylint: disable=wrong-import-order
