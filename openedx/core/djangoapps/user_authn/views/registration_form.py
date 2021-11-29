@@ -682,7 +682,7 @@ class RegistrationFormFactory:
             label=opt_in_label,
             field_type="checkbox",
             exposed=True,
-            default=True, # the checkbox will automatically be checked; meaning user has opted in
+            default=True,  # the checkbox will automatically be checked; meaning user has opted in
             required=required,
         )
 
