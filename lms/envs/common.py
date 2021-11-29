@@ -1450,10 +1450,10 @@ COURSE_LISTINGS = {}
 ############# XBlock Configuration ##########
 
 # Import after sys.path fixup
-from xmodule.modulestore.edit_info import EditInfoMixin  # lint-amnesty, pylint: disable=wrong-import-order
-from xmodule.modulestore.inheritance import InheritanceMixin  # lint-amnesty, pylint: disable=wrong-import-order
-from xmodule.modulestore import prefer_xmodules  # lint-amnesty, pylint: disable=wrong-import-order
-from xmodule.x_module import XModuleMixin  # lint-amnesty, pylint: disable=wrong-import-order
+from xmodule.modulestore.edit_info import EditInfoMixin  # lint-amnesty, pylint: disable=wrong-import-order, wrong-import-position
+from xmodule.modulestore.inheritance import InheritanceMixin  # lint-amnesty, pylint: disable=wrong-import-order, wrong-import-position
+from xmodule.modulestore import prefer_xmodules  # lint-amnesty, pylint: disable=wrong-import-order, wrong-import-position
+from xmodule.x_module import XModuleMixin  # lint-amnesty, pylint: disable=wrong-import-order, wrong-import-position
 
 # These are the Mixins that should be added to every XBlock.
 # This should be moved into an XBlock Runtime/Application object
