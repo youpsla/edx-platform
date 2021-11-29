@@ -48,7 +48,7 @@ jobs:
 
       - name: set pytest randomly option
         run: |
-          echo "pytest_randomly_option=$(if [ '${{ env.module_name }}' = 'openedx' ]; then echo '-p no:randomly'; else echo '' ; fi)" >> $GITHUB_ENV
+          echo "pytest_randomly_option=$(if [ '${{ env.module_name }}' = 'openedx' ] || [ '${{ env.module_name }}' = 'common' ]; then echo '-p no:randomly'; else echo '' ; fi)" >> $GITHUB_ENV
 
       - name: install requirements
         run: |
